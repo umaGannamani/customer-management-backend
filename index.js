@@ -15,7 +15,23 @@ app.use(bodyParser());
 
 // logging
 const logger = winston.createLogger({ transports: [new winston.transports.Console()] });
-app.use((req, res, next) => { logger.info(`${req.method} ${req.url}`); next(); });
+app.use((req, res, next) => { 
+  logger.info(`${req.method} ${req.url}`); 
+  next(); 
+});
+
+// ✅ Root route for base URL
+app.get("/", (req, res) => {
+  res.send(`
+    <h2>🚀 Customer Management Backend</h2>
+    <p>Available endpoints:</p>
+    <ul>
+      <li><a href="/api/customers">/api/customers</a> - Get all customers</li>
+      <li><a href="/api/customers/:id">/api/customers/:id</a> - Get a customer by ID</li>
+      <li><a href="/api/addresses">/api/addresses</a> - Manage addresses</li>
+    </ul>
+  `);
+});
 
 // mount routes
 app.use('/api/customers', customerRoutes); // customer endpoints
